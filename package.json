@@ -34,9 +34,11 @@
   "author": "Adam Tait",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^2.0.0",
     "fs": "0.0.1-security",
     "node-sass": "^3.11.3",
-    "pug": "^2.0.0-beta6"
+    "pug": "^2.0.0-beta6",
+    "request": "^2.78.0"
   },
   "devDependencies": {
     "http-server": "^0.9.0",

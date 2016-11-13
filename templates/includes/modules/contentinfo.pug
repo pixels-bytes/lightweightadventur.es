@@ -1,13 +1,13 @@
 div(role="contentinfo" class="contentinfo")
-  a(href="/" class="permalink")= title
-  p= tagline
+  a(href="/" class="permalink")= site.title
+  p= site.tagline
 
   small.
-    Design and content &#169; #[a(href="/contact")= author]. All Rights Reserved.
+    Design and content &#169; #[a(href="/contact")= site.author]. All Rights Reserved.
 
 //-  p.
-    We'd love to sail with you. Call us on #[span(class="tel")= phone] or send a
-    #[a(href="http://twitter.com/?status=@" + twitter) tweet] or #[a(href="mailto:" + email) email].
+    We'd love to sail with you. Call us on #[span(class="tel")= site.phone] or send a
+    #[a(href="http://twitter.com/?status=@" + site.twitter) tweet] or #[a(href="mailto:" + site.email) email].
 
 //-  p.
 //-    If you would like to use something #[a(href="#contact-link") get in touch].
