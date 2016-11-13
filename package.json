@@ -4,10 +4,11 @@
   "description": "For simplicity lovers with a thirst for adventure and freedom",
   "main": "index.js",
   "scripts": {
-    "clean": "rm -rf Build && mkdir Build Build/assets Build/blog Build/tag Build/category",
+    "clean": "rm -rf .build && mkdir .build .build/assets .build/blog .build/tag .build/category",
     "prebuild": "npm run clean -s",
-    "build:assets": "rsync assets/* Build & cp -r assets/img Build/assets/img & cp -r assets/webfonts Build/assets/webfonts",
-    "build:css": "node-sass --include-path assets/scss assets/scss/lightweightadventures.scss Build/assets/css/lightweightadventures.css",
+    "build:assets": "rsync assets/* .build & cp -r assets/img .build/assets/img & cp -r assets/webfonts .build/assets/webfonts",
+    "build:css": "node-sass --include-path assets/scss assets/scss/lightweightadventures.scss .build/assets/css/lightweightadventures.css",
+    "build:js": "cp -r assets/js .build/assets/js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

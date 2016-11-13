@@ -3,7 +3,7 @@
     "node_modules",
     "bower_components",
     ".git",
-    "build",
+    ".build",
     ".ruby-version"
     ]
 }
