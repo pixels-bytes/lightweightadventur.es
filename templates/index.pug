@@ -1,0 +1,8 @@
+extends layout.pug
+
+block content
+  section#fresh-off-the-press
+    ul
+      h3 Files on Contentful
+      each file in files
+        li= file

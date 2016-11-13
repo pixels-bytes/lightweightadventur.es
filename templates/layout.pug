@@ -3,7 +3,7 @@ include includes/site/conditional.pug
 
   head
     block title
-      title= title + ' — ' + tagline
+      title= site.title + ' — ' + site.tagline
     block meta
       include includes/site/head-meta.pug
     block styles
@@ -15,7 +15,7 @@ include includes/site/conditional.pug
     block icons
       include includes/site/icons.pug
 
-  body(class="blog" id= id)
+  body(class="blog" id= site.id)
     #l-wrap.wrap
       include includes/layout/header.pug
 
