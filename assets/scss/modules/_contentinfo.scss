@@ -1,0 +1,19 @@
+.contentinfo { margin-bottom: $baselineheight; }
+
+.contentinfo a,
+.contentinfo p,
+.contentinfo small {
+    margin: 0;
+}
+
+.contentinfo .permalink {
+    @include font-size($basefontsize*1.5);
+    font-weight: bold;
+    border: 0;
+}
+
+.contentinfo p {
+    margin-top: 0.25*$baselineheight;
+    text-transform: uppercase;
+    @include font-size(0.75*$basefontsize);
+}

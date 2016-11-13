@@ -1,0 +1,36 @@
+.page {
+  margin: 1.5*$baselineheight 0 3*$baselineheight 0;
+}
+
+.page header,
+.page p,
+.page ul,
+.category-heading,
+.tag-heading {
+  margin: 0.5*$baselineheight auto;
+  width: 65%;
+}
+
+.archive {
+  width: 65%;
+  margin: $baselineheight auto;
+  padding: $baselineheight 0;
+  border-bottom: 1px solid rgba($cream, 0.5);
+}
+
+.archive th {
+  text-align: left;
+}
+
+.archive .post-date {
+  text-align: right;
+}
+
+.category-heading,
+.tag-heading {
+  padding: 0.5*$baselineheight 0;
+  margin-top: $baselineheight;
+  margin-bottom: 0.5*$baselineheight;
+  //    border-top: 1px solid rgba($cream, 0.5);
+  //    border-bottom: 1px solid rgba($cream, 0.5);
+}
