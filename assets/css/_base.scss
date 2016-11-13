@@ -1,0 +1,422 @@
+// ==========================================================================
+//   BASE STYLES
+// ==========================================================================
+
+//    renders normalise.css redundant
+//    incorporates components from h5bp main.css
+
+// TODO: tidy up file
+
+
+@charset "UTF-8";
+
+
+
+// =BODY
+// ==========================================================================
+
+html {
+    background : $bodycolor;
+    font-size : 1em;
+    -webkit-overflow-scrolling : touch;
+    -webkit-tap-highlight-color : $lightestneutralcolor;
+    -webkit-text-size-adjust : 100%;
+    -ms-text-size-adjust : 100%;
+}
+
+body {
+    @include zero;
+    width : 100%; margin: 0;
+    background-color : transparent;
+    font-family : $basefontfamily; @include font-size($basefontsize); line-height : $baselineheight; color : $textcolor;
+}
+
+::-moz-selection {
+background-color : lighten($primarycolor, 65%);
+color : $primarycolor;
+text-shadow : none; }
+
+::selection {
+background-color : lighten($primarycolor, 65%);
+color : $primarycolor;
+text-shadow : none; }
+
+
+
+
+// =HTML5
+// ==========================================================================
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+  display: block;
+}
+
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+[hidden],
+template {
+  display: none;
+}
+
+a {
+background: transparent;
+text-decoration: none;
+border-bottom: 1px dashed;
+padding-bottom: 0;
+color : $linkcolor;
+
+&:visited {
+color : $linkcolorvisited; }
+
+&:hover {
+text-decoration : none;
+color : $linkcolorhover; }
+
+&:focus {
+outline : thin dotted;
+color : $linkcolorfocus; }
+
+&:hover,
+&:active {
+outline : 0; }
+}
+
+hr {
+    clear: both;
+    display: block;
+    margin: $baselineheight * 2 0;
+    padding: 0;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid $bordercolor;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+    vertical-align: middle;
+}
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+img {
+  max-width: 100%;
+  border: 0;
+  vertical-align: middle;
+  -ms-interpolation-mode: bicubic;
+}
+
+figure {
+margin-bottom : $baselineheight;
+
+img {
+margin-bottom : $baselineheight / 4; }
+
+figcaption {
+display : block;
+font-weight : normal;
+@include font-size(14);
+font-style : italic;
+color : $midneutralcolor; }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    font-family: $baseheadingfont;
+    font-weight: $baseheadingfontweight;
+    color: $baseheadingfontcolor;
+    text-transform: uppercase;
+    text-rendering: optimizelegibility;
+    small {
+        font-size: 80%;
+        font-weight: normal;
+        line-height: 1;
+        color: $lightneutralcolor;
+    }
+}
+
+h1 {
+    @include font-size($basefontsize * 1.75);
+    line-height: 1.2;
+    margin-bottom: $baselineheight / 2;
+}
+
+h2 {
+    @include font-size($basefontsize * 1.5);
+    line-height: 1.2;
+    margin-bottom: $baselineheight / 2;
+}
+
+h3 {
+    @include font-size($basefontsize * 1.3);
+    line-height: 1.3;
+    margin-bottom: $baselineheight / 1.5;
+}
+
+h4 {
+    @include font-size($basefontsize * 1.25);
+    line-height: 1.25;
+    margin-bottom: $baselineheight;
+}
+
+h5 {
+    @include font-size($basefontsize * 1.15);
+    margin-bottom: $baselineheight;
+}
+
+h6 {
+    @include font-size($basefontsize);
+    margin-bottom: $baselineheight;
+    font-weight: normal;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+p,
+ol,
+ul,
+dl,
+address {
+margin-bottom : $baselineheight;
+@include font-size($basefontsize);
+line-height : $baselineheight; }
+
+small {
+@include font-size($basefontsize / 1.25); }
+
+ul,
+ol {
+list-style-type : none;
+margin : 0 0 $baselineheight #{-$gutterwidth};
+padding : 0 0 0 $gutterwidth; }
+
+li ul,
+li ol {
+list-style-type : none;
+margin : $baselineheight 0;
+@include font-size(16); }
+
+
+// blockquote
+
+blockquote  {
+margin : 0 0 $baselineheight 0;
+padding : $gutterwidth / 2;
+background-color : $basefontbackgroundcolor;
+font-style : normal;
+
+small {
+&:before {
+content : '\00A0 \2014'; }
+
+&:after {
+content : ''; }
+}
+
+&.pull-right {
+float : right;
+background-color : transparent;
+
+p, small {
+text-align : right; }
+
+small {
+&:before {
+content : ''; }
+
+&:after {
+content : '\00A0 \2014'; }
+}
+}
+
+cite {
+font-style : normal; }
+}
+
+
+q {
+quotes : none; }
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+content : '';
+content : none; }
+
+dl,
+dd {
+margin-bottom : $baselineheight;  }
+
+dt {
+font-weight : bold; }
+
+
+abbr[title] {
+border-bottom : 1px dotted $bordercolor;
+cursor : help; }
+
+b, strong {
+font-weight : bold; }
+
+dfn {
+font-style : italic; }
+
+ins {
+background-color : $basefontbackgroundcolor;
+color : $textcolor;
+text-decoration : none; }
+
+mark {
+background-color : $basefontbackgroundcolor;
+color : $textcolor;
+font-style : italic;
+font-weight : bold; }
+
+pre,
+code,
+kbd,
+samp {
+font-family : $codefont;
+@include font-size($basefontsize / 1.25);
+line-height : $baselineheight;
+color : lighten($textcolor,.50%); }
+
+pre {
+white-space : pre;
+white-space : pre-wrap;
+word-wrap : break-word;
+overflow: auto;
+}
+
+sub,
+sup {
+position : relative;
+@include font-size($basefontsize / 1.25);
+line-height : 0;
+vertical-align : baseline; }
+
+sup { top : -0.5em; }
+
+sub { bottom : -0.25em; }
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+
+button { overflow: visible; }
+
+
+button, select { text-transform: none; }
+
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+
+button[disabled],
+html input[disabled] {
+  cursor: default;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+
+input {
+  line-height: normal;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+legend {
+  border: 0;
+  padding: 0;
+}
+
+textarea {
+  overflow: auto;
+}
+
+optgroup {
+  font-weight: bold;
+}

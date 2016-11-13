@@ -1,0 +1,33 @@
+//    #drevas-voyage {}
+//        #l-wrap {}
+//            #l-header {}
+//                #navigation-toggle {} -- cf _navigation-toggle.scss
+//            #l-main-content{}
+//            #l-footer{}
+
+#lightweight-adventures {
+  border-top: solid 20px rgba($cream, 0.2);
+}
+
+#l-header {
+  position: relative;
+  top: 0px;
+  width: 87%;
+  margin: $baselineheight auto;
+}
+
+#l-main-content {
+  width: 87%;
+  margin: $baselineheight auto;
+}
+
+#l-footer {
+  background: rgba($cream, 0.2);
+  text-align: center;
+  padding: $baselineheight 0;
+  border-top: 1px solid rgba($cream, 0.15);
+}
+
+.l-panel {
+  text-align: left;
+}

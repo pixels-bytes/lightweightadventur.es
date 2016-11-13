@@ -1,0 +1,23 @@
+.cats-tags {
+  margin: $baselineheight auto;
+}
+
+.tag th,
+.cat th {
+    text-transform: capitalize;
+}
+
+.cats,
+.tags {
+  margin: 0 auto;
+  width: 65%;
+  clear: both;
+}
+
+.cats dt,
+.tags dt,
+.cats dd,
+.tags dd {
+  display: inline;
+  margin: 0;
+}

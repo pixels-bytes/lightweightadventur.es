@@ -1,0 +1,136 @@
+@charset "UTF-8";
+
+// TODO: restructure SASS to use LESS variables — not conducive to maintainance
+
+// PALETTE
+// ==========================================================================
+
+$red                            : rgb(152,62,27);
+$blue                           : rgb(24,120,151);
+$green                          : rgb(146,153,27);
+$cream  						: rgb(206,196,190);
+$chocolate						: rgb(76,48,45);
+
+// Sometimes you may want $black and $white to be ‘almost black’ and ’off-white’
+$black 							: rgb(0,0,0);
+$white 							: rgb(255,255,255);
+
+
+
+
+// ASSIGN COLOURS
+// ==========================================================================
+
+$bodycolor 						: rgb(255,255,255);
+$textcolor 						: rgb(71,63,63);
+
+// Three main colours
+$primarycolor 					: $blue;
+$secondarycolor 				: $red;
+$tertiarycolor 					: $green;
+
+// Now set a neutral colour for borders etc.
+$neutralcolor 					: rgb(71,63,63);
+$midneutralcolor 				: darken($neutralcolor,25%);
+$darkneutralcolor 				: darken($neutralcolor,50%);
+$lightneutralcolor 				: lighten($neutralcolor,25%);
+$lighterneutralcolor 			: lighten($neutralcolor,50%);
+$lightestneutralcolor 			: lighten($neutralcolor,70%);
+
+
+// Choose a colour for your hyperlinks. Often this will be the $primarycolor
+$linkcolor 		    			: $primarycolor;
+$linkcolorhover 				: lighten($linkcolor, 25);
+$linkcolorvisited   			: $linkcolor;
+$linkcolorfocus 				: $linkcolorhover;
+
+
+// Now define another set of colours. These will be used to style alerts and buttons
+$alertcolor 					: rgb(218,79,73);
+$errorcolor 					: rgb(176,20,0);
+$infocolor 						: rgb(216,220,162);
+$inversecolor 					: rgb(65,65,65);
+$successcolor 					: rgb(188,212,222);
+$warningcolor 					: $errorcolor;
+
+
+// Background colour for blockquotes, ins, and mark
+$basefontbackgroundcolor		: $lightestneutralcolor;
+
+
+
+
+// TYPOGRAPHY
+// ==========================================================================
+
+//    some great pairings include:
+//    * brandon-grotesque & freight-text-pro
+//    * alternate-gothic-no-3-d & ff-tisa-web-pro
+//    * freight-sans-pro & brandon-grotesque
+//    * proxima nova as an alternative to gotham
+
+
+// Base typeface and size
+$basefontfamily 				: freight-sans-pro, san-serif;
+$basefontsize 					: 13;
+
+// $gutterwidth for horizontal spacing and $baselineheight for vertical rhythm
+$gutterwidth 					: 24px;
+$baselineheight 				: 1.5em;
+
+// Your headings may inherit the base typeface, or you may set a different font stack
+$baseheadingfont 				: brandon-grotesque;
+
+// Choose between normal, bold or set a font-weight number (eg: 700) for your headings
+$baseheadingfontweight 			: 500;
+
+// Your headings may inherit the $textcolor, or you may set a different colour
+$baseheadingfontcolor 			: inherit;
+
+// Often you’ll use an alternative typeface (eg: for buttons, form inputs and tables)
+$altfontfamily 					: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$altlineheight 					: 1.35em;
+
+// You can choose a special typeface just for ampersands too
+$ampfontfamily 					: local('Georgia'), local('Garamond'), local('Palatino'), local('Book Antiqua');
+
+//  And if your site’s for geeks, you’ll need a font for code too
+$codefont 						: Monaco, Courier New, monospace;
+
+
+
+
+// TEXTURE
+// ==========================================================================
+
+$bordercolor    				: $lighterneutralcolor;
+$borderstyle					: solid;
+$borderwidth 					: 1px;
+$borderradius 					: 4px;
+
+
+
+
+// MEDIA QUERY BREAK-POINTS
+// ==========================================================================
+
+//    480px 	30em
+//    600px 	37.5em
+//    768px 	48em
+//    992px 	62em
+//    1382px	86.375em
+
+$bp2 							: 480px;
+$bp3 							: 600px;
+$bp4 							: 768px;
+$bp5 							: 992px;
+$bp6 							: 1382px;
+
+
+
+
+// TRANSITIONS
+// ==========================================================================
+
+// Set a default duration for CSS transitions
+$transitionduration				: .25s;

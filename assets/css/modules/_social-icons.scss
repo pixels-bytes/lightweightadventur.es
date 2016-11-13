@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+.social ul { margin: 0 }
+
+.social li {
+    display: inline;
+    padding: 0.25*$baselineheight;
+}
+
+.social a { border: 0; }
+
+.ss-icon { font-size: 30px; color: $linkcolor; }

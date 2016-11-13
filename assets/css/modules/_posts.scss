@@ -1,0 +1,85 @@
+// <article class="post">
+//     {% assign post = article %}
+//     <header>
+//         <p class="post-date">{{ post.date | date: '%b %d, %Y' }}</p>
+//         <h1 class="post-heading"><a href="/blog/{{ article.slug | remove: '/article/' }}" class="post-permalink">{{ article.title }}</a></h1>
+//     </header>
+//
+//     {{ post.body }}
+//
+//     <footer>
+//         {% include "articles/cats-tags" %}
+//         <!-- filed under: categories -->
+//         <!-- tags: -->
+//         <!-- authour: whoevs -->
+//         <!-- share this: facebook | twitter | wherevs -->
+//     </footer>
+//
+//     <section class="post-comments">
+//         <header>
+//             <h1>Comments</h1>
+//         </header>
+//
+//         <article>
+//             <footer>
+//                 <p>Posted by: Joe Balochio</p>
+//             </footer>
+//             <p>This was a great article</p>
+//         </article>
+//
+//         <article>
+//             <footer>
+//                 <p>Posted by: Casey Brock</p>
+//             </footer>
+//             <p>How do you think this applies to the plan for world domination?</p>
+//         </article>
+//     </section>
+// </article>
+
+.post {
+  margin: 1.5*$baselineheight 0 3*$baselineheight 0;
+}
+
+.post-date {
+  @include font-size((2/3)*$basefontsize);
+  font-family: $baseheadingfont;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: darken($cream, 40%);
+}
+
+.post-heading {
+  margin: 0;
+}
+
+.post-heading a {
+  position: relative;
+  color: $textcolor;
+  border: 0;
+}
+
+.post-heading a:hover {
+  color: $linkcolorhover;
+}
+
+.post header,
+.post p {
+  margin: 0.5*$baselineheight auto;
+  width: 65%;
+}
+
+p.post-date {
+  width: 100%;
+  margin: 0;
+}
+
+.post-images {
+  width: 100%;
+  margin: $baselineheight 0;
+}
+
+.post-images img {
+  display: block;
+  margin: $baselineheight auto;
+}
