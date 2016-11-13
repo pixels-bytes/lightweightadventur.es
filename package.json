@@ -7,6 +7,7 @@
     "clean": "rm -rf Build && mkdir Build Build/assets Build/blog Build/tag Build/category",
     "prebuild": "npm run clean -s",
     "build:assets": "rsync assets/* Build & cp -r assets/img Build/assets/img & cp -r assets/webfonts Build/assets/webfonts",
+    "build:css": "node-sass --include-path assets/scss assets/scss/lightweightadventures.scss Build/assets/css/lightweightadventures.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -19,5 +20,8 @@
     "m.y.o.g"
   ],
   "author": "Adam Tait",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "node-sass": "^3.11.3"
+  }
 }
