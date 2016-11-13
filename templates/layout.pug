@@ -1,30 +1,26 @@
 doctype html
-include includes/conditional.pug
+include includes/site/conditional.pug
 
   head
     block title
       title= title + ' — ' + tagline
     block meta
-      include includes/head-meta.pug
+      include includes/site/head-meta.pug
     block styles
-      include includes/stylesheets.pug
+      include includes/site/stylesheets.pug
     block scripts
-      include includes/scripts-head.pug
+      include includes/site/scripts-head.pug
     block feeds
-      include includes/feeds.pug
+      include includes/site/feeds.pug
     block icons
-      include includes/icons.pug
+      include includes/site/icons.pug
 
   body(class="blog" id= id)
-    div(class="wrap" id="l-wrap")
+    #l-wrap.wrap
+      include includes/layout/header.pug
 
-      header(role="banner" class="banner" id="l-header")
-        a(href="/" class="logo")
-          img(src="/assets/img/lightweightadventures.png" alt= description)
-        include includes/nav-toggle.pug
-
-      main(role="main" id="l-main-content")
+      main#l-main-content(role="main")
         block content
 
-      include includes/sidebar.pug
-      include includes/footer.pug
+      include includes/layout/sidebar.pug
+      include includes/layout/footer.pug
