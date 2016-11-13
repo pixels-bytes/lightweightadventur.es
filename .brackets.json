@@ -4,6 +4,7 @@
     "bower_components",
     ".git",
     ".build",
-    ".ruby-version"
+    ".ruby-version",
+    ".sample-env"
     ]
 }

@@ -5,4 +5,5 @@
 /node_modules/
 /.build/
 /notes/
+/_from hammer project/
 .env

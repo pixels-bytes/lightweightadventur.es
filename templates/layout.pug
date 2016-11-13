@@ -1,0 +1,22 @@
+doctype html
+include includes/conditional.pug
+
+  head
+    block title
+      title= title + ' — ' + tagline
+
+    include includes/head-meta.pug
+
+    block styles
+      include includes/stylesheets.pug
+
+    block scripts
+      include includes/scripts-head.pug
+
+    block feeds
+      include includes/feeds.pug
+
+    include includes/icons.pug
+
+  body
+    h1 Hi Ya!
