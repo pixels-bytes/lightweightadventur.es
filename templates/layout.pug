@@ -4,19 +4,26 @@ include includes/conditional.pug
   head
     block title
       title= title + ' — ' + tagline
-
-    include includes/head-meta.pug
-
+    block meta
+      include includes/head-meta.pug
     block styles
       include includes/stylesheets.pug
-
     block scripts
       include includes/scripts-head.pug
-
     block feeds
       include includes/feeds.pug
+    block icons
+      include includes/icons.pug
 
-    include includes/icons.pug
+  body(class="blog" id= id)
+    div(class="wrap" id="l-wrap")
 
-  body
-    h1 Hi Ya!
+      header(role="banner" class="banner" id="l-header")
+        a(href="/" class="logo")
+          img(src="/assets/img/lightweightadventures.png" alt= description)
+        include includes/nav-toggle.pug
+
+      main(role="main" id="l-main-content")
+        block content
+
+      include includes/sidebar.pug
