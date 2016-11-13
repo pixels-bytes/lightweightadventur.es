@@ -4,6 +4,9 @@
   "description": "For simplicity lovers with a thirst for adventure and freedom",
   "main": "index.js",
   "scripts": {
+    "clean": "rm -rf Build && mkdir Build Build/assets Build/blog Build/tag Build/category",
+    "prebuild": "npm run clean -s",
+    "build:assets": "rsync assets/* Build & cp -r assets/img Build/assets/img & cp -r assets/webfonts Build/assets/webfonts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
