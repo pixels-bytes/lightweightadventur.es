@@ -8,7 +8,7 @@
     "prebuild": "npm run clean -s",
     "build": "npm run build:assets && npm run build:css && npm run build:js && npm run build:html && npm run build:deps",
     "build:assets": "rsync assets/* .build & cp -r assets/img .build/assets/img & cp -r assets/webfonts .build/assets/webfonts",
-    "build:html": "node scripts/build.js",
+    "build:html": "node builder/build.js",
     "build:css": "node-sass --include-path assets/scss assets/scss/lightweightadventures.scss .build/assets/css/lightweightadventures.css",
     "build:js": "cp -r assets/js .build/assets/js",
     "build:deps": "echo add_browserify_script_here",

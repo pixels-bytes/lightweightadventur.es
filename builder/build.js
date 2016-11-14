@@ -12,7 +12,7 @@
  *         - CMS: Contentful
  *         - VCS: Github
  *         – Hosting: Netlify
- *  
+ *
  * @requires dotenv
  * @requires fs
  * @requires pug
@@ -24,9 +24,9 @@
 // THE REQUIREMENTS
 const dotenv  = require('dotenv').config();
 const fs = require('fs');
-const pug = require('pug');
 const request = require('request');
 const site = require('../site.json');
+const template = require('./templates');
 
 
 // THE REQUEST
@@ -51,13 +51,13 @@ const getSpace = url => {
 
 
 // THE ACTION
-const index = pug.compileFile('templates/index.pug');
 const posts = { site: site, files: [] };
 
 getSpace(url).then((items) => {
   items.forEach(i => {
     posts.files.push(i.fields.title);
+    console.log(i);
   });
-  
-  fs.writeFileSync('.build/index.html', index(posts));
+
+  fs.writeFileSync('.build/index.html', template.INDEX(posts));
 });
