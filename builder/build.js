@@ -45,6 +45,11 @@ const saveFile = x => fs.writeFileSync(x.buildpath, x.file);
 const save = _.map(saveFile);
 
 
+// OH SO PURE
+const byDate = (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime();
+const byDateDesc = (a, b) => byDate(b, a);
+
+
 // CUSTOM FUNCTIONS FOR THIS PROBLEM
 const getData = type => _.comp(_.map(i => i.fields), _.filter(i => i.sys.contentType.sys.id == type));
 
@@ -63,16 +68,45 @@ const markdown = x => {
   return x;
 };
 
+const prettyDate = x => {
+  const mnths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  x.date = new Date(x.date);
+  x.date = mnths[x.date.getMonth()] + " " +
+    (
+      (x.date.getDate() < 10) ? ('0' + x.date.getDate()) : x.date.getDate()
+    ) + ", " +
+    x.date.getFullYear();
+  return x;
+};
+
+
 // THE COMPOSITIONS
 const statiq = _.comp(
   _.map(applyT(template.PAGE)),
   _.map(i => ({ buildpath: i.buildpath, file: i })),
   _.map(_.addO({ site: site })),
-  _.tap(_.log),
   _.map(markdown),
   _.map(genPath()),
   _.map(_.dupe)
 );
+
+// ****************************************************************************
+
+//  const individual = _.comp(_.map(applyTemplate(template.SINGLE)), _.map(fileHash), _.map(prettyDate), _.sort(byDateDesc));
+
+const individual = _.comp(
+  _.tap(_.log),
+  _.map(applyT(template.SINGLE)),
+  _.map(i => ({ buildpath: i.buildpath, file: i })),
+  _.map(_.addO({ site: site })),
+  _.map(markdown),
+  _.map(prettyDate),
+  _.sort(byDateDesc),
+  _.map(genPath(BLOG)),
+  _.map(_.dupe)
+);
+
+// ****************************************************************************
 
 
 // MAIN PROGRAM
@@ -81,4 +115,5 @@ contentful.getSpace().then((items) => {
   const pages = getData('page')(items);
 
   save(statiq(pages));
+  save(individual(posts));
 });
