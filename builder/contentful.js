@@ -9,6 +9,8 @@
  *
  * @requires dotenv
  * @requires request
+ *
+ * @exports getSpace()
  */
 
 

@@ -2,6 +2,18 @@
 "use strict";
 
 
+/**
+ * LIGHTWEIGHT ADVENTURES TEMPLATES
+ * @version 1.0.0
+ * @author Pixels & Bytes
+ *
+ * @requires paths
+ * @requires pug
+ *
+ * @exports templates
+ */
+
+
 
 // THE REQUIREMENTS
 const path    = require('./paths');

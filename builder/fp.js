@@ -2,6 +2,15 @@
 "use strict";
 
 
+/**
+ * FUNCTIONAL PROGRAMMING LIBRARY
+ * @version 1.0.0
+ * @author Pixels & Bytes
+ *
+ * @exports fp
+ */
+
+
 
 // THE PRIMITIVE COMBINATORS
 const I = x => x;                       // id

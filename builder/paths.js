@@ -2,6 +2,15 @@
 "use strict";
 
 
+/**
+ * LIGHTWEIGHT ADVENTURES PATHS
+ * @version 1.0.0
+ * @author Pixels & Bytes
+ *
+ * @exports paths
+ */
+
+
 
 // THE PATHS
 const BUILD       = ".build/";
