@@ -39,12 +39,15 @@ const flatten = fold(y=> x=> y.concat(Array.isArray(x) ? flatten (x) : x)) ([]);
 const uniq = list => list.filter((v, i, a) => a.indexOf(v) === i);
 const tap = f => x => { f(x); return x; };
 const add = a => b => a + b;
-const addO = a => b => Object.assign(a, b);
 const log = x => console.log(x);
-
+const addO = x => y => {
+  const copy = Object.assign({}, x);
+  return Object.assign(copy, y);
+};
+const dupe = x => addO({})(x);
 
 
 module.exports = {
   I, B, K, C, W, S,
-  id, eq, prop, propEq, apply, map, filter, some, sort, fold, comp, flatten, uniq, tap, add, addO, log
+  id, eq, prop, propEq, apply, map, filter, some, sort, fold, comp, flatten, uniq, tap, add, addO, log, dupe
 };

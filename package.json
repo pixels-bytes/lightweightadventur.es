@@ -36,6 +36,7 @@
   "dependencies": {
     "dotenv": "^2.0.0",
     "fs": "0.0.1-security",
+    "jstransformer-markdown-it": "^2.0.0",
     "node-sass": "^3.11.3",
     "pug": "^2.0.0-beta6",
     "rename": "^1.0.3",

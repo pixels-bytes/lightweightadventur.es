@@ -1,0 +1,15 @@
+extends layout.pug
+
+block title
+  title= title + " | " + site.title
+
+block content
+  article.page
+    header
+      h1= title
+
+    #page-content
+      //- in ruby: == Kramdown::Document.new("#{page.content}").to_html
+      p= content
+
+    .end •

@@ -33,15 +33,26 @@ const site       = require('../site.json');
 const template   = require('./templates');
 
 
+// CONSTANTS
+const BLOG = true;
+
+
 // IO FILTH
-const saveFile = x => fs.writeFileSync(x.buildpath, x.template);
+const saveFile = x => fs.writeFileSync(x.buildpath, x.file);
 const save = _.map(saveFile);
 
 
 // CUSTOM FUNCTIONS FOR THIS PROBLEM
 const extract = x => x.fields;
-const genPath = x => {
-  x.buildpath = rename(path.BUILD + x.slug, {
+const getData = type => _.comp(_.map(extract), _.filter(i => i.sys.contentType.sys.id == type));
+
+const applyT = t => x => {
+  x.file = t(x.file);
+  return x;
+};
+
+const genPath = blog => x => {
+  x.buildpath = rename((blog ? path.BLOG : path.BUILD) + x.slug, {
     extname: '.html'
   });
 
@@ -50,8 +61,13 @@ const genPath = x => {
 
 
 // THE COMPOSITIONS
-const getData = type => _.comp(_.map(extract), _.filter(i => i.sys.contentType.sys.id == type));
-const statiq = "";
+const statiq = _.comp(
+  _.map(applyT(template.PAGE)),
+  _.map(i => ({ buildpath: i.buildpath, file: i })),
+  _.map(_.addO({ site: site })),
+  _.map(genPath()),
+  _.map(_.dupe)
+);
 
 
 // MAIN PROGRAM
@@ -59,11 +75,5 @@ contentful.getSpace().then((items) => {
   const posts = getData('post')(items);
   const pages = getData('page')(items);
 
-  _.log(pages);
-
-
-//  pages.forEach(p => _.log(p.fields));
-//  posts.forEach(p => _.log(p.fields.tags));
-
-//  fs.writeFileSync('.build/index.html', template.INDEX(posts));
+  save(statiq(pages));
 });
