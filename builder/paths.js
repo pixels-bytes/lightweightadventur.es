@@ -28,5 +28,5 @@ const INDEX       = BUILD + "index.html";
 
 
 module.exports = {
-  BUILD, TEMPLATES, INDEX
+  BUILD, BLOG, TEMPLATES, INDEX
 };

@@ -110,8 +110,33 @@ const index = _.comp(
   _.map(_.dupe)
 );
 
+
 // ****************************************************************************
 
+//  const flatUniq = _.comp(_.uniq, _.flatten);
+//  const collectUniq = (p) => _.comp(flatUniq, _.map(_.prop(p)));
+//  const somePropEq = p => t => _.comp(_.some(_.eq(t)), _.prop(p));
+
+//  const makeTag = p => files => tag => ({
+//    title: tag,
+//    posts: _.filter(somePropEq(p)(tag))(files)
+//  });
+
+//  const tagsFor = _.comp(
+//    _.map(applyTemplate(template.TAG)),
+//    indexHash(path.TAG),
+//    _.S(_.B(_.map)(makeTag('tags')))(collectUniq('tags')),
+//    _.map(prettyDate),
+//    _.sort(byDateDesc)
+//  );
+
+const tag = _.comp(
+  _.map(prettyDate),
+  _.sort(byDate),
+  _.map(_.dupe)
+);
+
+// ****************************************************************************
 
 
 // MAIN PROGRAM
@@ -122,4 +147,5 @@ contentful.getSpace().then((items) => {
   save(statiq(pages));
   save(individual(posts));
   save(index(posts));
+  tag(posts);
 });
