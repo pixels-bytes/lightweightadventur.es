@@ -14,6 +14,7 @@
  *         – Hosting: Netlify
  *
  * @requires contenful
+ * @requires markdown-it
  * @requires fp
  * @requires fs
  * @requires rename
@@ -26,6 +27,7 @@
 // THE REQUIREMENTS
 const _          = require('./fp');
 const contentful = require('./contentful');
+const md         = require('markdown-it')({ html: true, linkify: true, typographer: true });
 const fs         = require('fs');
 const path       = require('./paths');
 const rename     = require('rename');
@@ -33,8 +35,9 @@ const site       = require('../site.json');
 const template   = require('./templates');
 
 
-// CONSTANTS
+// THE SETTINGS
 const BLOG = true;
+const MD_OPTIONS = {};
 
 
 // IO FILTH
@@ -43,8 +46,7 @@ const save = _.map(saveFile);
 
 
 // CUSTOM FUNCTIONS FOR THIS PROBLEM
-const extract = x => x.fields;
-const getData = type => _.comp(_.map(extract), _.filter(i => i.sys.contentType.sys.id == type));
+const getData = type => _.comp(_.map(i => i.fields), _.filter(i => i.sys.contentType.sys.id == type));
 
 const applyT = t => x => {
   x.file = t(x.file);
@@ -52,19 +54,22 @@ const applyT = t => x => {
 };
 
 const genPath = blog => x => {
-  x.buildpath = rename((blog ? path.BLOG : path.BUILD) + x.slug, {
-    extname: '.html'
-  });
-
+  x.buildpath = rename((blog ? path.BLOG : path.BUILD) + x.slug, { extname: '.html' });
   return x;
 };
 
+const markdown = x => {
+  x.content = md.render(x.content);
+  return x;
+};
 
 // THE COMPOSITIONS
 const statiq = _.comp(
   _.map(applyT(template.PAGE)),
   _.map(i => ({ buildpath: i.buildpath, file: i })),
   _.map(_.addO({ site: site })),
+  _.tap(_.log),
+  _.map(markdown),
   _.map(genPath()),
   _.map(_.dupe)
 );

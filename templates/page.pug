@@ -9,7 +9,6 @@ block content
       h1= title
 
     #page-content
-      //- in ruby: == Kramdown::Document.new("#{page.content}").to_html
-      p= content
+      p !{content}
 
     .end •
