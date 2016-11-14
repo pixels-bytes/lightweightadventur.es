@@ -1,0 +1,30 @@
+article.post
+  header
+    p.post-date= date
+    h1.post-heading
+      a(href='/blog/' + slug + '.html' class='post-permalink')= title
+
+  .post-content
+    p !{content}
+
+      //- footer.cats-tags
+      //-   include cats-tags.pug
+      //-   author: whoevs
+      //-   share this: fb | twitter | wherevs
+      //-
+      //-   section.post-comments
+      //-     header
+      //-       h1 Comments
+      //-
+      //-     article
+      //-       footer
+      //-         p Posted by: Joe Balochio
+      //-       p My comment
+  //-
+      //-     article
+      //-       footer
+      //-         p Posted by: Casey Brock
+      //-       p My comment
+      //-
+
+  .end •

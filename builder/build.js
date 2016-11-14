@@ -90,12 +90,7 @@ const statiq = _.comp(
   _.map(_.dupe)
 );
 
-// ****************************************************************************
-
-//  const individual = _.comp(_.map(applyTemplate(template.SINGLE)), _.map(fileHash), _.map(prettyDate), _.sort(byDateDesc));
-
 const individual = _.comp(
-  _.tap(_.log),
   _.map(applyT(template.SINGLE)),
   _.map(i => ({ buildpath: i.buildpath, file: i })),
   _.map(_.addO({ site: site })),
@@ -106,7 +101,17 @@ const individual = _.comp(
   _.map(_.dupe)
 );
 
+const index = _.comp(
+  _.map(applyT(template.INDEX)),
+  xs => ([{ buildpath: path.INDEX, file: { files: xs, site: site }}]),
+  _.map(markdown),
+  _.map(prettyDate),
+  _.sort(byDate),
+  _.map(_.dupe)
+);
+
 // ****************************************************************************
+
 
 
 // MAIN PROGRAM
@@ -116,4 +121,5 @@ contentful.getSpace().then((items) => {
 
   save(statiq(pages));
   save(individual(posts));
+  save(index(posts));
 });
