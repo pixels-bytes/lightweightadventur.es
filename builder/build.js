@@ -84,6 +84,7 @@ const prettyDate = x => {
   return x;
 };
 
+
 // THE COMPOSITIONS
 const statiq = _.comp(
   _.map(applyT(template.PAGE)),
@@ -114,25 +115,6 @@ const index = _.comp(
   _.map(_.dupe)
 );
 
-
-// ****************************************************************************
-
-//  const indexHash = buildpath => files => ([{
-//    buildpath: buildpath,
-//    file: {
-//      files: files,
-//      site: site,
-//    }
-//  }]);
-
-//  const tagsFor = _.comp(
-//    _.map(applyTemplate(template.TAG)),
-//    indexHash(path.TAG),
-//    _.S(_.B(_.map)(makeTag('tags')))(collectUniq('tags')),
-//    _.map(prettyDate),
-//    _.sort(byDateDesc)
-//  );
-
 const tag = _.comp(
   _.map(applyT(template.TAG)),
   xs => ([{ buildpath: path.TAG, file: { files: xs, site: site }}]),
@@ -142,7 +124,14 @@ const tag = _.comp(
   _.map(_.dupe)
 );
 
-// ****************************************************************************
+const cat = _.comp(
+  _.map(applyT(template.CAT)),
+  xs => ([{ buildpath: path.CAT, file: { files: xs, site: site }}]),
+  _.S(_.B(_.map)(makeTag('categories')))(collectUniq('categories')),
+  _.map(prettyDate),
+  _.sort(byDate),
+  _.map(_.dupe)
+);
 
 
 // MAIN PROGRAM
@@ -154,6 +143,7 @@ contentful.getSpace().then((space) => {
   save(individual(posts));
   save(index(posts));
   save(tag(posts));
+  save(cat(posts));
   
 
 });
