@@ -18,15 +18,16 @@ const TEMPLATES   = "templates/";
 
 const BLOG        = BUILD + "blog/";
 const INDEX       = BUILD + "index.html";
+const TAG         = BUILD + "tag/index.html";
+
 
 //  const ARCHIVE     = BUILD + "archive.html";
 //  const CAT         = BUILD + "category/index.html";
-//  const TAG         = BUILD + "tag/index.html";
 //  const SEARCH      = BUILD + "search.html";
 //  const SEARCH_JSON = BUILD + "searchIndex.json";
 
 
 
 module.exports = {
-  BUILD, BLOG, TEMPLATES, INDEX
+  BUILD, BLOG, TEMPLATES, INDEX, TAG
 };

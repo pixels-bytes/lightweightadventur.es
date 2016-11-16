@@ -24,14 +24,15 @@ const pug  = require('pug');
 const INDEX       = pug.compileFile(path.TEMPLATES + "index.pug");
 const PAGE        = pug.compileFile(path.TEMPLATES + "page.pug");
 const SINGLE      = pug.compileFile(path.TEMPLATES + "single.pug");
+const TAG         = pug.compileFile(path.TEMPLATES + "tag.pug");
+
 
 //  const ARCHIVE     = swig.compileFile(path.TEMPLATES + "archive.html");
-//  const TAG         = swig.compileFile(path.TEMPLATES + "tag.html");
 //  const CAT         = swig.compileFile(path.TEMPLATES + "cat.html");
 //  const SEARCH      = swig.compileFile(path.TEMPLATES + "search.html");
 
 
 
 module.exports = {
-  INDEX, PAGE, SINGLE
+  INDEX, PAGE, SINGLE, TAG
 };

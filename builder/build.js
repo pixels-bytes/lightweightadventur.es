@@ -51,10 +51,18 @@ const save = _.map(saveFile);
 // OH SO PURE
 const byDate = (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime();
 const byDateDesc = (a, b) => byDate(b, a);
+const flatUniq = _.comp(_.uniq, _.flatten);
+const collectUniq = (p) => _.comp(flatUniq, _.map(_.prop(p)));
+const somePropEq = p => t => _.comp(_.some(_.eq(t)), _.prop(p));
 
 
 // CUSTOM FUNCTIONS FOR THIS PROBLEM
 const getData = type => _.comp(_.map(i => i.fields), _.filter(i => i.sys.contentType.sys.id == type));
+
+const makeTag = p => files => tag => ({
+  title: tag.fields.title,
+  posts: _.filter(somePropEq(p)(tag))(files)
+});
 
 const applyT = t => x => {
   x.file = t(x.file);
@@ -109,14 +117,13 @@ const index = _.comp(
 
 // ****************************************************************************
 
-//  const flatUniq = _.comp(_.uniq, _.flatten);
-//  const collectUniq = (p) => _.comp(flatUniq, _.map(_.prop(p)));
-//  const somePropEq = p => t => _.comp(_.some(_.eq(t)), _.prop(p));
-
-//  const makeTag = p => files => tag => ({
-//    title: tag,
-//    posts: _.filter(somePropEq(p)(tag))(files)
-//  });
+//  const indexHash = buildpath => files => ([{
+//    buildpath: buildpath,
+//    file: {
+//      files: files,
+//      site: site,
+//    }
+//  }]);
 
 //  const tagsFor = _.comp(
 //    _.map(applyTemplate(template.TAG)),
@@ -127,6 +134,9 @@ const index = _.comp(
 //  );
 
 const tag = _.comp(
+  _.map(applyT(template.TAG)),
+  xs => ([{ buildpath: path.TAG, file: { files: xs, site: site }}]),
+  _.S(_.B(_.map)(makeTag('tags')))(collectUniq('tags')),
   _.map(prettyDate),
   _.sort(byDate),
   _.map(_.dupe)
@@ -143,5 +153,7 @@ contentful.getSpace().then((space) => {
   save(statiq(pages));
   save(individual(posts));
   save(index(posts));
-  tag(posts);
+  save(tag(posts));
+  
+
 });
