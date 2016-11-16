@@ -13,51 +13,136 @@
  *         - VCS: Github
  *         – Hosting: Netlify
  *
- * @requires dotenv
+ * @requires contenful
+ * @requires fp
  * @requires fs
- * @requires pug
- * @requires request
+ * @requires markdown-it
+ * @requires moment
+ * @requires paths
+ * @requires rename
+ * @requires site.json
+ * @requires templates
  */
 
 
 
 // THE REQUIREMENTS
-const dotenv  = require('dotenv').config();
-const fs = require('fs');
-const request = require('request');
-const site = require('../site.json');
-const template = require('./templates');
+const _          = require('./fp');
+const contentful = require('./contentful');
+const md         = require('markdown-it')({ html: true, linkify: true, typographer: true });
+const fs         = require('fs');
+const moment     = require('moment');
+const path       = require('./paths');
+const rename     = require('rename');
+const site       = require('../site.json');
+const template   = require('./templates');
 
 
-// THE REQUEST
-const apiKey = encodeURIComponent(process.env.CONTENTFUL_API_KEY);
-const spaceId = encodeURIComponent(process.env.CONTENTFUL_SPACE_ID);
-const url = 'https://cdn.contentful.com/spaces/' + spaceId + '/entries?access_token=' + apiKey;
+// THE SETTINGS
+const BLOG = true;
+const MD_OPTIONS = {};
 
-const getSpace = url => {
-  return new Promise((resolve, reject) => {
-    request({
-      url: url,
-      json: true
-    }, (error, response, body) => {
-      if (error) {
-        reject('Unable to fetch space');
-      } else {
-        resolve(body.items);
-      }
-    });
-  });
+
+// IO FILTH
+const saveFile = x => fs.writeFileSync(x.buildpath, x.file);
+const save = _.map(saveFile);
+
+
+// OH SO PURE
+const byDate = (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime();
+const byDateDesc = (a, b) => byDate(b, a);
+const flatUniq = _.comp(_.uniq, _.flatten);
+const collectUniq = (p) => _.comp(flatUniq, _.map(_.prop(p)));
+const somePropEq = p => t => _.comp(_.some(_.eq(t)), _.prop(p));
+
+
+// CUSTOM FUNCTIONS FOR THIS PROBLEM
+const getData = type => _.comp(_.map(i => i.fields), _.filter(i => i.sys.contentType.sys.id == type));
+
+const makeTag = p => files => tag => ({
+  title: tag.fields.title,
+  slug: tag.fields.slug,
+  posts: _.filter(somePropEq(p)(tag))(files)
+});
+
+const applyT = t => x => {
+  x.file = t(x.file);
+  return x;
+};
+
+const genPath = blog => x => {
+  x.buildpath = rename((blog ? path.BLOG : path.BUILD) + x.slug, { extname: '.html' });
+  return x;
+};
+
+const markdown = x => {
+  x.content = md.render(x.content);
+  return x;
+};
+
+const prettyDate = x => {
+  x.date = moment(x.date).format('Do MMMM, YYYY');
+  return x;
 };
 
 
-// THE ACTION
-const posts = { site: site, files: [] };
+// THE COMPOSITIONS
+const statiq = _.comp(
+  _.map(applyT(template.PAGE)),
+  _.map(i => ({ buildpath: i.buildpath, file: i })),
+  _.map(_.addO({ site: site })),
+  _.map(markdown),
+  _.map(genPath()),
+  _.map(_.dupe)
+);
 
-getSpace(url).then((items) => {
-  items.forEach(i => {
-    posts.files.push(i.fields.title);
-    console.log(i);
-  });
+const individual = _.comp(
+  _.map(applyT(template.SINGLE)),
+  _.map(i => ({ buildpath: i.buildpath, file: i })),
+  _.map(_.addO({ site: site })),
+  _.map(markdown),
+  _.map(prettyDate),
+  _.sort(byDateDesc),
+  _.map(genPath(BLOG)),
+  _.map(_.dupe)
+);
 
-  fs.writeFileSync('.build/index.html', template.INDEX(posts));
+const index = _.comp(
+  _.map(applyT(template.INDEX)),
+  xs => ([{ buildpath: path.INDEX, file: { files: xs, site: site }}]),
+  _.map(markdown),
+  _.map(prettyDate),
+  _.sort(byDateDesc),
+  _.map(_.dupe)
+);
+
+const tag = _.comp(
+  _.map(applyT(template.TAG_ARCHIVE)),
+  xs => ([{ buildpath: path.TAG_ARCHIVE, file: { files: xs, site: site }}]),
+  _.S(_.B(_.map)(makeTag('tags')))(collectUniq('tags')),
+  _.map(prettyDate),
+  _.sort(byDate),
+  _.map(_.dupe)
+);
+
+const cat = _.comp(
+  _.map(applyT(template.CAT_ARCHIVE)),
+  xs => ([{ buildpath: path.CAT_ARCHIVE, file: { files: xs, site: site }}]),
+  _.S(_.B(_.map)(makeTag('categories')))(collectUniq('categories')),
+  _.map(prettyDate),
+  _.sort(byDate),
+  _.map(_.dupe)
+);
+
+
+// MAIN PROGRAM
+contentful.getSpace().then((space) => {
+  const posts = getData('post')(space.items);
+  const pages = getData('page')(space.items);
+
+  save(statiq(pages));
+  save(individual(posts));
+  save(index(posts));
+  save(tag(posts));
+  save(cat(posts));
 });

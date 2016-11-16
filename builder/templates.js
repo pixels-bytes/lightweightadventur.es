@@ -2,23 +2,37 @@
 "use strict";
 
 
+/**
+ * LIGHTWEIGHT ADVENTURES TEMPLATES
+ * @version 1.0.0
+ * @author Pixels & Bytes
+ *
+ * @requires paths
+ * @requires pug
+ *
+ * @exports templates
+ */
+
+
 
 // THE REQUIREMENTS
-const path    = require('./paths');
-const pug    = require('pug');
+const path = require('./paths');
+const pug  = require('pug');
 
 
 // THE TEMPLATES
 const INDEX       = pug.compileFile(path.TEMPLATES + "index.pug");
+const PAGE        = pug.compileFile(path.TEMPLATES + "page.pug");
+const SINGLE      = pug.compileFile(path.TEMPLATES + "single.pug");
+const TAG_ARCHIVE = pug.compileFile(path.TEMPLATES + "archive-tag.pug");
+const CAT_ARCHIVE = pug.compileFile(path.TEMPLATES + "archive-cat.pug");
+
+
 //  const ARCHIVE     = swig.compileFile(path.TEMPLATES + "archive.html");
-//  const TAG         = swig.compileFile(path.TEMPLATES + "tag.html");
-//  const CAT         = swig.compileFile(path.TEMPLATES + "cat.html");
-//  const SINGLE      = swig.compileFile(path.TEMPLATES + "single.html");
-//  const PAGE        = swig.compileFile(path.TEMPLATES + "page.html");
 //  const SEARCH      = swig.compileFile(path.TEMPLATES + "search.html");
 
 
 
 module.exports = {
-  INDEX
+  INDEX, PAGE, SINGLE, TAG_ARCHIVE, CAT_ARCHIVE
 };

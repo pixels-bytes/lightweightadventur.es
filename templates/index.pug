@@ -2,7 +2,9 @@ extends layout.pug
 
 block content
   section#fresh-off-the-press
-    ul
-      h3 Files on Contentful
-      each file in files
-        li= file
+    each file in files
+      - title = file.title
+      - slug = file.slug
+      - date = file.date
+      - content = file.content
+      include includes/modules/post.pug
