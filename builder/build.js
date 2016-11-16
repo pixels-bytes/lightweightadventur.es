@@ -14,9 +14,11 @@
  *         – Hosting: Netlify
  *
  * @requires contenful
- * @requires markdown-it
  * @requires fp
  * @requires fs
+ * @requires markdown-it
+ * @requires moment
+ * @requires paths
  * @requires rename
  * @requires site.json
  * @requires templates
@@ -29,6 +31,7 @@ const _          = require('./fp');
 const contentful = require('./contentful');
 const md         = require('markdown-it')({ html: true, linkify: true, typographer: true });
 const fs         = require('fs');
+const moment     = require('moment');
 const path       = require('./paths');
 const rename     = require('rename');
 const site       = require('../site.json');
@@ -51,7 +54,25 @@ const byDateDesc = (a, b) => byDate(b, a);
 
 
 // CUSTOM FUNCTIONS FOR THIS PROBLEM
-const getData = type => _.filter(i => i.sys.contentType.sys.id == type);
+const getData = type => _.comp(_.map(i => i.fields), _.filter(i => i.sys.contentType.sys.id == type));
+
+
+//  const getData = t => xs => {
+//    const tags = _.filter(x => x.sys.contentType.sys.id == 'tag')(xs);
+//    const cats = _.filter(x => x.sys.contentType.sys.id == 'category')(xs);
+//    const data = _.comp(_.map(i => i.fields), _.filter(i => i.sys.contentType.sys.id == t))(xs);
+//
+//    if (t == 'post') {
+//      data.forEach(d => d.tags.forEach(dt => {
+//        const postTags = tags.filter(t => {
+//          return t.sys.id == dt.sys.id;
+//        });
+//      }));
+//    }
+//
+//    return data;
+//  };
+
 
 const applyT = t => x => {
   x.file = t(x.file);
@@ -69,16 +90,9 @@ const markdown = x => {
 };
 
 const prettyDate = x => {
-  const mnths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  x.date = new Date(x.date);
-  x.date = mnths[x.date.getMonth()] + " " +
-    (
-      (x.date.getDate() < 10) ? ('0' + x.date.getDate()) : x.date.getDate()
-    ) + ", " +
-    x.date.getFullYear();
+  x.date = moment(x.date).format('Do MMMM, YYYY');
   return x;
 };
-
 
 // THE COMPOSITIONS
 const statiq = _.comp(
@@ -87,7 +101,6 @@ const statiq = _.comp(
   _.map(_.addO({ site: site })),
   _.map(markdown),
   _.map(genPath()),
-  _.map(i => i.fields),
   _.map(_.dupe)
 );
 
@@ -99,7 +112,6 @@ const individual = _.comp(
   _.map(prettyDate),
   _.sort(byDateDesc),
   _.map(genPath(BLOG)),
-  _.map(i => i.fields),
   _.map(_.dupe)
 );
 
@@ -109,7 +121,6 @@ const index = _.comp(
   _.map(markdown),
   _.map(prettyDate),
   _.sort(byDateDesc),
-  _.map(i => i.fields),
   _.map(_.dupe)
 );
 
@@ -136,7 +147,6 @@ const index = _.comp(
 const tag = _.comp(
   _.map(prettyDate),
   _.sort(byDate),
-  _.map(i => i.fields),
   _.map(_.dupe)
 );
 
@@ -147,35 +157,10 @@ const tag = _.comp(
 contentful.getSpace().then((items) => {
   const posts = getData('post')(items);
   const pages = getData('page')(items);
-  const tags  = getData('tag')(items);
-  const cats  = getData('category')(items);
+
 
   save(statiq(pages));
   save(individual(posts));
   save(index(posts));
   tag(posts);
-
-  posts.forEach(p => {
-    _.log(p.fields.title);
-
-    // post tags
-    p.fields.tags.forEach(pt => {
-      const postTags = tags.filter(t => {
-        return t.sys.id == pt.sys.id;
-      });
-
-      postTags.forEach(pt => _.log(pt.fields.title));
-    });
-
-
-
-    _.log('\n');
-  });
-
-  tags.forEach(t => _.log(t.sys.id + " = " + t.fields.title));
-
-
-
-//
-//  tags.forEach(t => _.log('title: ' + t.fields.title + ' id: ' + t.sys.id));
 });
