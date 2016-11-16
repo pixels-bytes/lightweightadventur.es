@@ -34,14 +34,14 @@
   "author": "Adam Tait",
   "license": "ISC",
   "dependencies": {
+    "contentful": "^3.7.1",
     "dotenv": "^2.0.0",
     "fs": "0.0.1-security",
     "markdown-it": "^8.1.0",
     "moment": "^2.16.0",
     "node-sass": "^3.11.3",
     "pug": "^2.0.0-beta6",
-    "rename": "^1.0.3",
-    "request": "^2.78.0"
+    "rename": "^1.0.3"
   },
   "devDependencies": {
     "http-server": "^0.9.0",

@@ -3,12 +3,12 @@
 
 
 /**
- * LIGHTWEIGHT ADVENTURES CONTENTFUL REQUEST
+ * LIGHTWEIGHT ADVENTURES CONTENTFUL CLIENT
  * @version 1.0.0
  * @author Pixels & Bytes
  *
  * @requires dotenv
- * @requires request
+ * @requires contentful
  *
  * @exports getSpace()
  */
@@ -16,26 +16,14 @@
 
 
 // THE REQUIREMENTS
-const dotenv  = require('dotenv').config();
-const request = require('request');
+const dotenv     = require('dotenv').config();
+const contentful = require('contentful');
 
 
-// THE REQUEST
-const apiKey = encodeURIComponent(process.env.CONTENTFUL_API_KEY);
-const spaceId = encodeURIComponent(process.env.CONTENTFUL_SPACE_ID);
-const url = 'https://cdn.contentful.com/spaces/' + spaceId + '/entries?access_token=' + apiKey;
+// THE CLIENT
+const client = contentful.createClient({
+  space: process.env.CONTENTFUL_SPACE_ID,
+  accessToken: process.env.CONTENTFUL_API_KEY
+});
 
-module.exports.getSpace = () => {
-  return new Promise((resolve, reject) => {
-    request({
-      url: url,
-      json: true
-    }, (error, response, body) => {
-      if (error) {
-        reject('Unable to fetch space');
-      } else {
-        resolve(body.items);
-      }
-    });
-  });
-};
+module.exports.getSpace = () => client.getEntries();

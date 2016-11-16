@@ -56,24 +56,6 @@ const byDateDesc = (a, b) => byDate(b, a);
 // CUSTOM FUNCTIONS FOR THIS PROBLEM
 const getData = type => _.comp(_.map(i => i.fields), _.filter(i => i.sys.contentType.sys.id == type));
 
-
-//  const getData = t => xs => {
-//    const tags = _.filter(x => x.sys.contentType.sys.id == 'tag')(xs);
-//    const cats = _.filter(x => x.sys.contentType.sys.id == 'category')(xs);
-//    const data = _.comp(_.map(i => i.fields), _.filter(i => i.sys.contentType.sys.id == t))(xs);
-//
-//    if (t == 'post') {
-//      data.forEach(d => d.tags.forEach(dt => {
-//        const postTags = tags.filter(t => {
-//          return t.sys.id == dt.sys.id;
-//        });
-//      }));
-//    }
-//
-//    return data;
-//  };
-
-
 const applyT = t => x => {
   x.file = t(x.file);
   return x;
@@ -154,10 +136,9 @@ const tag = _.comp(
 
 
 // MAIN PROGRAM
-contentful.getSpace().then((items) => {
-  const posts = getData('post')(items);
-  const pages = getData('page')(items);
-
+contentful.getSpace().then((space) => {
+  const posts = getData('post')(space.items);
+  const pages = getData('page')(space.items);
 
   save(statiq(pages));
   save(individual(posts));
