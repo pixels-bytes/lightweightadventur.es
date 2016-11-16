@@ -32,6 +32,7 @@ const apply = f => x => f(x);
 const map = f => xs => xs.map(f);
 const filter = f => xs => xs.filter(apply(f));
 const some = f => xs => xs.some(apply(f));
+const every = f => xs => xs.every(apply(f));
 const sort = f => xs => xs.sort(f);
 const fold = f => y => xs => xs.reduce((y,x)=> f(y)(x), y);
 const comp = (...fns) => x => fns.reduceRight((v, f) => f(v), x);
@@ -49,5 +50,5 @@ const dupe = x => addO({})(x);
 
 module.exports = {
   I, B, K, C, W, S,
-  id, eq, prop, propEq, apply, map, filter, some, sort, fold, comp, flatten, uniq, tap, add, addO, log, dupe
+  id, eq, prop, propEq, apply, map, filter, some, every, sort, fold, comp, flatten, uniq, tap, add, addO, log, dupe
 };

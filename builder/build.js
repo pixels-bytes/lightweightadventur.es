@@ -51,7 +51,7 @@ const byDateDesc = (a, b) => byDate(b, a);
 
 
 // CUSTOM FUNCTIONS FOR THIS PROBLEM
-const getData = type => _.comp(_.map(i => i.fields), _.filter(i => i.sys.contentType.sys.id == type));
+const getData = type => _.filter(i => i.sys.contentType.sys.id == type);
 
 const applyT = t => x => {
   x.file = t(x.file);
@@ -87,6 +87,7 @@ const statiq = _.comp(
   _.map(_.addO({ site: site })),
   _.map(markdown),
   _.map(genPath()),
+  _.map(i => i.fields),
   _.map(_.dupe)
 );
 
@@ -98,6 +99,7 @@ const individual = _.comp(
   _.map(prettyDate),
   _.sort(byDateDesc),
   _.map(genPath(BLOG)),
+  _.map(i => i.fields),
   _.map(_.dupe)
 );
 
@@ -106,7 +108,8 @@ const index = _.comp(
   xs => ([{ buildpath: path.INDEX, file: { files: xs, site: site }}]),
   _.map(markdown),
   _.map(prettyDate),
-  _.sort(byDate),
+  _.sort(byDateDesc),
+  _.map(i => i.fields),
   _.map(_.dupe)
 );
 
@@ -133,6 +136,7 @@ const index = _.comp(
 const tag = _.comp(
   _.map(prettyDate),
   _.sort(byDate),
+  _.map(i => i.fields),
   _.map(_.dupe)
 );
 
@@ -143,9 +147,35 @@ const tag = _.comp(
 contentful.getSpace().then((items) => {
   const posts = getData('post')(items);
   const pages = getData('page')(items);
+  const tags  = getData('tag')(items);
+  const cats  = getData('category')(items);
 
   save(statiq(pages));
   save(individual(posts));
   save(index(posts));
   tag(posts);
+
+  posts.forEach(p => {
+    _.log(p.fields.title);
+
+    // post tags
+    p.fields.tags.forEach(pt => {
+      const postTags = tags.filter(t => {
+        return t.sys.id == pt.sys.id;
+      });
+
+      postTags.forEach(pt => _.log(pt.fields.title));
+    });
+
+
+
+    _.log('\n');
+  });
+
+  tags.forEach(t => _.log(t.sys.id + " = " + t.fields.title));
+
+
+
+//
+//  tags.forEach(t => _.log('title: ' + t.fields.title + ' id: ' + t.sys.id));
 });
