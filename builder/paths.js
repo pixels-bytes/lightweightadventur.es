@@ -18,8 +18,8 @@ const TEMPLATES   = "templates/";
 
 const BLOG        = BUILD + "blog/";
 const INDEX       = BUILD + "index.html";
-const TAG         = BUILD + "tag/index.html";
-const CAT         = BUILD + "category/index.html";
+const TAG_ARCHIVE = BUILD + "tag/index.html";
+const CAT_ARCHIVE = BUILD + "category/index.html";
 
 
 //  const ARCHIVE     = BUILD + "archive.html";
@@ -29,5 +29,5 @@ const CAT         = BUILD + "category/index.html";
 
 
 module.exports = {
-  BUILD, BLOG, TEMPLATES, INDEX, TAG, CAT
+  BUILD, BLOG, TEMPLATES, INDEX, TAG_ARCHIVE, CAT_ARCHIVE
 };

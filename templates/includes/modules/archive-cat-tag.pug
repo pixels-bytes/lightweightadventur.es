@@ -1,0 +1,16 @@
+article(class="archives page " + pageSlug)
+  header
+    h1= pageTitle
+
+    each file in files
+      table(class= file.slug + " " + pageSlug + " archive")
+        thead(id= file.slug)
+          tr: th= file.title
+
+        tbody
+          each post in file.posts
+            tr
+              td.post-title: a(href="/blog/" + post.slug)= post.title
+              td.post-date= post.date
+
+  .end •

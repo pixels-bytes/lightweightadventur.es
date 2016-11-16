@@ -24,8 +24,8 @@ const pug  = require('pug');
 const INDEX       = pug.compileFile(path.TEMPLATES + "index.pug");
 const PAGE        = pug.compileFile(path.TEMPLATES + "page.pug");
 const SINGLE      = pug.compileFile(path.TEMPLATES + "single.pug");
-const TAG         = pug.compileFile(path.TEMPLATES + "tag.pug");
-const CAT         = pug.compileFile(path.TEMPLATES + "cat.pug");
+const TAG_ARCHIVE = pug.compileFile(path.TEMPLATES + "archive-tag.pug");
+const CAT_ARCHIVE = pug.compileFile(path.TEMPLATES + "archive-cat.pug");
 
 
 //  const ARCHIVE     = swig.compileFile(path.TEMPLATES + "archive.html");
@@ -34,5 +34,5 @@ const CAT         = pug.compileFile(path.TEMPLATES + "cat.pug");
 
 
 module.exports = {
-  INDEX, PAGE, SINGLE, TAG, CAT
+  INDEX, PAGE, SINGLE, TAG_ARCHIVE, CAT_ARCHIVE
 };

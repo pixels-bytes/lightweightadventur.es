@@ -61,6 +61,7 @@ const getData = type => _.comp(_.map(i => i.fields), _.filter(i => i.sys.content
 
 const makeTag = p => files => tag => ({
   title: tag.fields.title,
+  slug: tag.fields.slug,
   posts: _.filter(somePropEq(p)(tag))(files)
 });
 
@@ -116,8 +117,8 @@ const index = _.comp(
 );
 
 const tag = _.comp(
-  _.map(applyT(template.TAG)),
-  xs => ([{ buildpath: path.TAG, file: { files: xs, site: site }}]),
+  _.map(applyT(template.TAG_ARCHIVE)),
+  xs => ([{ buildpath: path.TAG_ARCHIVE, file: { files: xs, site: site }}]),
   _.S(_.B(_.map)(makeTag('tags')))(collectUniq('tags')),
   _.map(prettyDate),
   _.sort(byDate),
@@ -125,8 +126,8 @@ const tag = _.comp(
 );
 
 const cat = _.comp(
-  _.map(applyT(template.CAT)),
-  xs => ([{ buildpath: path.CAT, file: { files: xs, site: site }}]),
+  _.map(applyT(template.CAT_ARCHIVE)),
+  xs => ([{ buildpath: path.CAT_ARCHIVE, file: { files: xs, site: site }}]),
   _.S(_.B(_.map)(makeTag('categories')))(collectUniq('categories')),
   _.map(prettyDate),
   _.sort(byDate),
@@ -144,6 +145,4 @@ contentful.getSpace().then((space) => {
   save(index(posts));
   save(tag(posts));
   save(cat(posts));
-  
-
 });

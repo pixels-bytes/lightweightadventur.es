@@ -1,0 +1,9 @@
+extends layout.pug
+
+block title
+  title= "Tags | " + site.title
+
+block content
+  - pageTitle = "Tags"
+  - pageSlug = "tags"
+  include includes/modules/archive-cat-tag.pug
