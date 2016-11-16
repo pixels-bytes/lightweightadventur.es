@@ -41,10 +41,7 @@ const uniq = list => list.filter((v, i, a) => a.indexOf(v) === i);
 const tap = f => x => { f(x); return x; };
 const add = a => b => a + b;
 const log = x => console.log(x);
-const addO = x => y => {
-  const copy = Object.assign({}, x);
-  return Object.assign(copy, y);
-};
+const addO = x => y => Object.assign(Object.assign({}, x), y);
 const dupe = x => addO({})(x);
 
 
