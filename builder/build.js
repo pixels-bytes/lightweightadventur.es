@@ -8,7 +8,7 @@
  * @author Pixels & Bytes
  *
  *         Built with myriad technologies
- *         - grunt work: nodejs
+ *         - Heavy lifting: Node.js
  *         - CMS: Contentful
  *         - VCS: Github
  *         – Hosting: Netlify
