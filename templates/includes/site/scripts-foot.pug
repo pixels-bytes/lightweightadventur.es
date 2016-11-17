@@ -1,0 +1,19 @@
+// Load libraries
+script.
+  head.js(
+    //- Place scripts to be loaded here, in the order the need to be executed
+    //- Typically libraries are needed first, such as jQuery (as the plugins
+    //- depend on jQuery to execute). Ensure all filenames you wish
+    //- head.js to load are surrounded with quotes. Also, this is a list, so
+    //- ensure that all but the last item are followed by a comma.
+
+    '/assets/js/vendor.js',
+    '/assets/js/app.js'
+  );
+
+  //- Google Analytics code
+  //- Set your account ID appropriately by replacing UA-XXXXX-X
+  const _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+  (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+  g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+  s.parentNode.insertBefore(g,s)}(document,'script'));

@@ -3,7 +3,6 @@
     "node_modules",
     "bower_components",
     ".git",
-    ".build",
     ".ruby-version",
     ".sample-env"
     ]
