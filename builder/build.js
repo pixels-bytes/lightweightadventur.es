@@ -64,35 +64,25 @@ const makeTag = p => files => tag => ({
   posts: _.filter(somePropEq(p)(tag))(files)
 });
 
-const noYear = x => {
-  x.date = moment(x.date).format('Do MMM');
-  return x;
-};
+const noYear = x => { return x.date = moment(x.date).format('Do MMM'), x; };
 
 const makeArchive = files => yr => ({
   year: yr,
   posts: _.comp(_.map(noYear), _.filter(p => moment(p.date).year() === yr))(files)
 });
 
-const applyT = t => x => {
-  x.file = t(x.file);
-  return x;
-};
+const hash = p => xs => ([{ buildpath: p, file: { files: xs, site: site }}]);
+
 
 const genPath = blog => x => {
-  x.buildpath = rename((blog ? path.BLOG : path.BUILD) + x.slug, { extname: '.html' });
-  return x;
+  return x.buildpath = rename((blog ? path.BLOG : path.BUILD) + x.slug, {
+    extname: '.html'
+  }), x;
 };
 
-const markdown = x => {
-  x.content = md.render(x.content);
-  return x;
-};
-
-const prettyDate = x => {
-  x.date = moment(x.date).format('Do MMMM, YYYY');
-  return x;
-};
+const applyT = t => x => { return x.file = t(x.file), x; };
+const markdown = x => { return x.content = md.render(x.content), x; };
+const prettyDate = x => { return x.date = moment(x.date).format('Do MMMM, YYYY'), x; };
 
 
 // THE COMPOSITIONS
@@ -118,7 +108,7 @@ const individual = _.comp(
 
 const index = _.comp(
   _.map(applyT(template.INDEX)),
-  xs => ([{ buildpath: path.INDEX, file: { files: xs, site: site }}]),
+  hash(path.INDEX),
   _.map(markdown),
   _.map(prettyDate),
   _.sort(byDateDesc),
@@ -127,7 +117,7 @@ const index = _.comp(
 
 const tag = _.comp(
   _.map(applyT(template.TAG_ARCHIVE)),
-  xs => ([{ buildpath: path.TAG_ARCHIVE, file: { files: xs, site: site }}]),
+  hash(path.TAG_ARCHIVE),
   _.S(_.B(_.map)(makeTag('tags')))(collectUniq('tags')),
   _.map(prettyDate),
   _.sort(byDateDesc),
@@ -136,7 +126,7 @@ const tag = _.comp(
 
 const cat = _.comp(
   _.map(applyT(template.CAT_ARCHIVE)),
-  xs => ([{ buildpath: path.CAT_ARCHIVE, file: { files: xs, site: site }}]),
+  hash(path.CAT_ARCHIVE),
   _.S(_.B(_.map)(makeTag('categories')))(collectUniq('categories')),
   _.map(prettyDate),
   _.sort(byDateDesc),
@@ -145,7 +135,7 @@ const cat = _.comp(
 
 const archive = _.comp(
   _.map(applyT(template.ARCHIVE)),
-  xs => ([{ buildpath: path.ARCHIVE, file: { files: xs, site: site }}]),
+  hash(path.ARCHIVE),
   _.S(_.B(_.map)(makeArchive))(_.comp(flatUniq, _.map(i => moment(i.date).year()))),
   _.sort(byDateDesc),
   _.map(_.dupe)
