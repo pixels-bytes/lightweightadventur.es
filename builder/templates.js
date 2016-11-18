@@ -26,13 +26,13 @@ const PAGE        = pug.compileFile(path.TEMPLATES + "page.pug");
 const SINGLE      = pug.compileFile(path.TEMPLATES + "single.pug");
 const TAG_ARCHIVE = pug.compileFile(path.TEMPLATES + "archive-tag.pug");
 const CAT_ARCHIVE = pug.compileFile(path.TEMPLATES + "archive-cat.pug");
+const ARCHIVE     = pug.compileFile(path.TEMPLATES + "archive.pug");
 
 
-//  const ARCHIVE     = swig.compileFile(path.TEMPLATES + "archive.html");
 //  const SEARCH      = swig.compileFile(path.TEMPLATES + "search.html");
 
 
 
 module.exports = {
-  INDEX, PAGE, SINGLE, TAG_ARCHIVE, CAT_ARCHIVE
+  INDEX, PAGE, SINGLE, TAG_ARCHIVE, CAT_ARCHIVE, ARCHIVE
 };

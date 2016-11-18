@@ -1,0 +1,18 @@
+extends layout.pug
+
+block title
+  title= "Archive | " + site.title
+
+block content
+  article(class="archive page")
+    header
+      h1 Archive
+      each file in files
+        table(class="archive " + file.year)
+          thead: tr: th= file.year
+          tbody
+            each post in file.posts
+              tr
+                td.post-title: a(href="/blog/" + post.slug + ".html")= post.title
+                td.post-date= post.date
+    .end •

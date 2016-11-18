@@ -20,14 +20,14 @@ const BLOG        = BUILD + "blog/";
 const INDEX       = BUILD + "index.html";
 const TAG_ARCHIVE = BUILD + "tag/index.html";
 const CAT_ARCHIVE = BUILD + "category/index.html";
+const ARCHIVE     = BUILD + "archive.html";
 
 
-//  const ARCHIVE     = BUILD + "archive.html";
 //  const SEARCH      = BUILD + "search.html";
 //  const SEARCH_JSON = BUILD + "searchIndex.json";
 
 
 
 module.exports = {
-  BUILD, BLOG, TEMPLATES, INDEX, TAG_ARCHIVE, CAT_ARCHIVE
+  BUILD, BLOG, TEMPLATES, INDEX, TAG_ARCHIVE, CAT_ARCHIVE, ARCHIVE
 };

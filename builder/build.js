@@ -40,7 +40,6 @@ const template   = require('./templates');
 
 // THE SETTINGS
 const BLOG = true;
-const MD_OPTIONS = {};
 
 
 // IO FILTH
@@ -63,6 +62,16 @@ const makeTag = p => files => tag => ({
   title: tag.fields.title,
   slug: tag.fields.slug,
   posts: _.filter(somePropEq(p)(tag))(files)
+});
+
+const noYear = x => {
+  x.date = moment(x.date).format('Do MMM');
+  return x;
+};
+
+const makeArchive = files => yr => ({
+  year: yr,
+  posts: _.comp(_.map(noYear), _.filter(p => moment(p.date).year() === yr))(files)
 });
 
 const applyT = t => x => {
@@ -121,7 +130,7 @@ const tag = _.comp(
   xs => ([{ buildpath: path.TAG_ARCHIVE, file: { files: xs, site: site }}]),
   _.S(_.B(_.map)(makeTag('tags')))(collectUniq('tags')),
   _.map(prettyDate),
-  _.sort(byDate),
+  _.sort(byDateDesc),
   _.map(_.dupe)
 );
 
@@ -130,7 +139,15 @@ const cat = _.comp(
   xs => ([{ buildpath: path.CAT_ARCHIVE, file: { files: xs, site: site }}]),
   _.S(_.B(_.map)(makeTag('categories')))(collectUniq('categories')),
   _.map(prettyDate),
-  _.sort(byDate),
+  _.sort(byDateDesc),
+  _.map(_.dupe)
+);
+
+const archive = _.comp(
+  _.map(applyT(template.ARCHIVE)),
+  xs => ([{ buildpath: path.ARCHIVE, file: { files: xs, site: site }}]),
+  _.S(_.B(_.map)(makeArchive))(_.comp(flatUniq, _.map(i => moment(i.date).year()))),
+  _.sort(byDateDesc),
   _.map(_.dupe)
 );
 
@@ -145,4 +162,5 @@ contentful.getSpace().then((space) => {
   save(index(posts));
   save(tag(posts));
   save(cat(posts));
+  save(archive(posts));
 });
