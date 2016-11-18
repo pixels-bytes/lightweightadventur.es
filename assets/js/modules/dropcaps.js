@@ -25,7 +25,7 @@ const Dropcap = require("dropcap.js");
 // jQUERY
 $(function () {
   function addSpan() {
-    return $('.post-content')
+    return $('.post-content, .page-content')
       .find('p:first')
       .html(function(i, html) {
       return html.replace(/^[^a-zA-Z]*([a-zA-Z])/g, '<span class="dropcap">$1</span>');
