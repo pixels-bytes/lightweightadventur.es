@@ -11,7 +11,8 @@
  */
 
 
-// NEEDS PERSONAL API KEY
+// PERSONAL API KEY
+const GoogleMapsLoader.KEY = 'AIzaSyABRt5j_SwH0Ro47azmKAiXWJCXsm1vcXo';
 
 // THE REQUIREMENTS
 const googleMapsLoader = require('google-maps');
@@ -21,11 +22,10 @@ const googleMapsLoader = require('google-maps');
 googleMapsLoader.load(function (google) {
 
     // Locations wot we az been to
-    const portPenrhyn = new google.maps.LatLng(53.233829, -4.110335);
-    const havenMarina = new google.maps.LatLng(52.474304, 1.718304);
-    const portForum   = new google.maps.LatLng(41.412926, 2.227746);
-    const offPalamos  = new google.maps.LatLng(41.786325, 3.139241);
-    const palamos     = new google.maps.LatLng(41.842627, 3.135153);
+    const barseback = new google.maps.LatLng(55.771952, 12.966122);
+    const ginesta   = new google.maps.LatLng(41.259900, 1.925085);
+    const palamos   = new google.maps.LatLng(41.842627, 3.135153);
+    const sitges    = new google.maps.LatLng(41.234966, 1.825519);
 
     // Visual centre of map
     var mapCenter = palamos; //new google.maps.LatLng(45.466225, 9.182882);
@@ -47,7 +47,7 @@ googleMapsLoader.load(function (google) {
     var map = new google.maps.Map(document.getElementById('googleMap'), mapOptions);
 
     // road transport in blue
-    var roadTransport = [portPenrhyn, havenMarina, portForum];
+    var roadTransport = [barseback, ginesta];
     var roadPath = new google.maps.Polyline({
       path: roadTransport,
       strokeColor: "#207896",
@@ -58,7 +58,7 @@ googleMapsLoader.load(function (google) {
     roadPath.setMap(map);
 
     // sail tracks in red
-    var sailDestinations = [portForum, offPalamos, palamos];
+    var sailDestinations = [ginesta, sitges];
     var sailWake = new google.maps.Polyline({
       path: sailDestinations,
       strokeColor: "#D9453D",
@@ -69,7 +69,7 @@ googleMapsLoader.load(function (google) {
     sailWake.setMap(map);
 
     //Callout Content
-    var contentString = 'Dreva';
+    var contentString = 'Calypso';
     //Set window width + content
     var infowindow = new google.maps.InfoWindow({
       content: contentString,
