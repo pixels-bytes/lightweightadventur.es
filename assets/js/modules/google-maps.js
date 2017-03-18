@@ -11,11 +11,13 @@
  */
 
 
-// PERSONAL API KEY
-const GoogleMapsLoader.KEY = 'AIzaSyABRt5j_SwH0Ro47azmKAiXWJCXsm1vcXo';
 
 // THE REQUIREMENTS
 const googleMapsLoader = require('google-maps');
+
+
+// PERSONAL API KEY
+const GoogleMapsLoader.KEY = 'AIzaSyABRt5j_SwH0Ro47azmKAiXWJCXsm1vcXo';
 
 
 // GOOGLE MAPS
