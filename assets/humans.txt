@@ -1,13 +1,13 @@
 /* humanstxt.org */
 
 Name: 					Adam Tait
-Site:					http://drevasvoyage.com
-Twitter:				@drevasvoyage
-Location:				Barcelona, Spain
+Site:					http://lightweightadventur.es
+Twitter:				@sailhikebike
+Location:				Sitges, Spain
 
 Default theme design:
 
 Name: 					Adam Tait
-Site:					http://drevasvoyage.com
-Twitter:				@drevasvoyage
-Location:				Barcelona, Spain
+Site:					http://lightweightadventur.es
+Twitter:				@sailhikebike
+Location:				Sitges, Spain
