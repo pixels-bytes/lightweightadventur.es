@@ -7,13 +7,14 @@
  * @version 1.0.0
  * @author Pixels & Bytes
  *
- *         Built with myriad technologies
- *         - Heavy lifting: Node.js
- *         - CMS: Contentful
- *         - VCS: Github
- *         – Hosting: Netlify
+ * @description Built with myriad technologies
+ *              - Heavy lifting: Node.js
+ *              - CMS: Contentful
+ *              - VCS: Github
+ *              – Hosting: Netlify
  *
- * @requires contenful
+ * @requires contentful
+ * @requires dotenv
  * @requires fp
  * @requires fs
  * @requires markdown-it
@@ -28,7 +29,8 @@
 
 // THE REQUIREMENTS
 const _          = require('./fp');
-const contentful = require('./contentful');
+const contentful = require('contentful');
+const dotenv     = require('dotenv').config();
 const md         = require('markdown-it')({ html: true, linkify: true, typographer: true });
 const fs         = require('fs');
 const moment     = require('moment');
@@ -39,7 +41,11 @@ const template   = require('./templates');
 
 
 // THE SETTINGS
-const BLOG = true;
+const BLOG   = true;
+const client = contentful.createClient({
+  space: process.env.CONTENTFUL_SPACE_ID,
+  accessToken: process.env.CONTENTFUL_API_KEY
+});
 
 
 // IO FILTH
@@ -67,12 +73,12 @@ const makeTag = p => files => tag => ({
 const noYear = x => { return x.date = moment(x.date).format('Do MMM'), x; };
 
 const makeArchive = files => yr => ({
+  // Maybe need to set x.date = moment(x.date) at the beginning to stop ISO error
   year: yr,
   posts: _.comp(_.map(noYear), _.filter(p => moment(p.date).year() === yr))(files)
 });
 
 const hash = p => xs => ([{ buildpath: p, file: { files: xs, site: site }}]);
-
 
 const genPath = blog => x => {
   return x.buildpath = rename((blog ? path.BLOG : path.BUILD) + x.slug, {
@@ -143,7 +149,7 @@ const archive = _.comp(
 
 
 // MAIN PROGRAM
-contentful.getSpace().then((space) => {
+client.getEntries().then((space) => {
   const posts = getData('post')(space.items);
   const pages = getData('page')(space.items);
 
