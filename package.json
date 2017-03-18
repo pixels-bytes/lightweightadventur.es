@@ -15,7 +15,7 @@
     "watch": "parallelshell 'npm run watch:css' 'npm run watch:js'",
     "watch:css": "onchange assets/scss/*.scss assets/scss/**/*.scss -- npm run build:css",
     "watch:js": "onchange assets/js/*.js assets/js/**/*.js -- npm run build:js",
-    "open:prod": "opener http://lightweightadventur.es",
+    "open:prod": "opener http://lightweightadventures.netlify.com",
     "open:dev": "opener http://localhost:9090",
     "serve": "http-server -p 9090 .build/",
     "livereload": "live-reload --port 9091 .build/",

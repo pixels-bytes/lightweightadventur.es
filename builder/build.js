@@ -7,13 +7,14 @@
  * @version 1.0.0
  * @author Pixels & Bytes
  *
- *         Built with myriad technologies
- *         - Heavy lifting: Node.js
- *         - CMS: Contentful
- *         - VCS: Github
- *         – Hosting: Netlify
+ * @description Built with myriad technologies
+ *              - Heavy lifting: Node.js
+ *              - CMS: Contentful
+ *              - VCS: Github
+ *              – Hosting: Netlify
  *
- * @requires contenful
+ * @requires contentful
+ * @requires dotenv
  * @requires fp
  * @requires fs
  * @requires markdown-it
@@ -28,7 +29,8 @@
 
 // THE REQUIREMENTS
 const _          = require('./fp');
-const contentful = require('./contentful');
+const contentful = require('contentful');
+const dotenv     = require('dotenv').config();
 const md         = require('markdown-it')({ html: true, linkify: true, typographer: true });
 const fs         = require('fs');
 const moment     = require('moment');
@@ -39,8 +41,11 @@ const template   = require('./templates');
 
 
 // THE SETTINGS
-const BLOG = true;
-const MD_OPTIONS = {};
+const BLOG   = true;
+const client = contentful.createClient({
+  space: process.env.CONTENTFUL_SPACE_ID,
+  accessToken: process.env.CONTENTFUL_API_KEY
+});
 
 
 // IO FILTH
@@ -65,25 +70,25 @@ const makeTag = p => files => tag => ({
   posts: _.filter(somePropEq(p)(tag))(files)
 });
 
-const applyT = t => x => {
-  x.file = t(x.file);
-  return x;
-};
+const noYear = x => { return x.date = moment(x.date).format('Do MMM'), x; };
+
+const makeArchive = files => yr => ({
+  // Maybe need to set x.date = moment(x.date) at the beginning to stop ISO error
+  year: yr,
+  posts: _.comp(_.map(noYear), _.filter(p => moment(p.date).year() === yr))(files)
+});
+
+const hash = p => xs => ([{ buildpath: p, file: { files: xs, site: site }}]);
 
 const genPath = blog => x => {
-  x.buildpath = rename((blog ? path.BLOG : path.BUILD) + x.slug, { extname: '.html' });
-  return x;
+  return x.buildpath = rename((blog ? path.BLOG : path.BUILD) + x.slug, {
+    extname: '.html'
+  }), x;
 };
 
-const markdown = x => {
-  x.content = md.render(x.content);
-  return x;
-};
-
-const prettyDate = x => {
-  x.date = moment(x.date).format('Do MMMM, YYYY');
-  return x;
-};
+const applyT = t => x => { return x.file = t(x.file), x; };
+const markdown = x => { return x.content = md.render(x.content), x; };
+const prettyDate = x => { return x.date = moment(x.date).format('Do MMMM, YYYY'), x; };
 
 
 // THE COMPOSITIONS
@@ -109,7 +114,7 @@ const individual = _.comp(
 
 const index = _.comp(
   _.map(applyT(template.INDEX)),
-  xs => ([{ buildpath: path.INDEX, file: { files: xs, site: site }}]),
+  hash(path.INDEX),
   _.map(markdown),
   _.map(prettyDate),
   _.sort(byDateDesc),
@@ -118,25 +123,33 @@ const index = _.comp(
 
 const tag = _.comp(
   _.map(applyT(template.TAG_ARCHIVE)),
-  xs => ([{ buildpath: path.TAG_ARCHIVE, file: { files: xs, site: site }}]),
+  hash(path.TAG_ARCHIVE),
   _.S(_.B(_.map)(makeTag('tags')))(collectUniq('tags')),
   _.map(prettyDate),
-  _.sort(byDate),
+  _.sort(byDateDesc),
   _.map(_.dupe)
 );
 
 const cat = _.comp(
   _.map(applyT(template.CAT_ARCHIVE)),
-  xs => ([{ buildpath: path.CAT_ARCHIVE, file: { files: xs, site: site }}]),
+  hash(path.CAT_ARCHIVE),
   _.S(_.B(_.map)(makeTag('categories')))(collectUniq('categories')),
   _.map(prettyDate),
-  _.sort(byDate),
+  _.sort(byDateDesc),
+  _.map(_.dupe)
+);
+
+const archive = _.comp(
+  _.map(applyT(template.ARCHIVE)),
+  hash(path.ARCHIVE),
+  _.S(_.B(_.map)(makeArchive))(_.comp(flatUniq, _.map(i => moment(i.date).year()))),
+  _.sort(byDateDesc),
   _.map(_.dupe)
 );
 
 
 // MAIN PROGRAM
-contentful.getSpace().then((space) => {
+client.getEntries().then((space) => {
   const posts = getData('post')(space.items);
   const pages = getData('page')(space.items);
 
@@ -145,4 +158,5 @@ contentful.getSpace().then((space) => {
   save(index(posts));
   save(tag(posts));
   save(cat(posts));
+  save(archive(posts));
 });
