@@ -17,7 +17,7 @@ const googleMapsLoader = require('google-maps');
 
 
 // PERSONAL API KEY
-GoogleMapsLoader.KEY = 'AIzaSyABRt5j_SwH0Ro47azmKAiXWJCXsm1vcXo';
+googleMapsLoader.KEY = 'AIzaSyABRt5j_SwH0Ro47azmKAiXWJCXsm1vcXo';
 
 
 // GOOGLE MAPS
