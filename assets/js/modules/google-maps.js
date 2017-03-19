@@ -30,10 +30,10 @@ googleMapsLoader.load(function (google) {
     const sitges    = new google.maps.LatLng(41.234966, 1.825519);
 
     // Visual centre of map
-    var mapCenter = palamos; //new google.maps.LatLng(45.466225, 9.182882);
+    var mapCenter = sitges;
 
     // Where we iz now
-    var myLatlng = palamos;
+    var myLatlng = sitges;
 
     // Custom image for pin
     var imagePath = 'http://www.jamesnew.co.uk/googlePin.png';
